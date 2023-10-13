@@ -17,19 +17,35 @@ ENDINTERFACE.`;
 }
 
 function ddls(name: string) {
-  return `something?`;
+  return `define view entity ${name.toLowerCase()}
+  as select from spfli
+{
+  key carrid    as Carrid,
+  key connid    as Connid,
+      countryfr as Countryfr,
+      countryto as Countryto
+}`;
 }
 
 function ddlx(name: string) {
-  return `something?`;
+  return `annotate entity foobar
+  with
+{
+  @EndUserText.label: 'Carrier ID'
+  Carrid;
+}`;
 }
 
 function drty(name: string) {
-  return `something?`;
+  return `@EndUserText.label : 'This is a test label simple type'
+@EndUserText.quickInfo : 'This is the quick info for the simple type'
+define type ${name.toLowerCase()} : abap.char( 10 ); `;
 }
 
 function dteb(name: string) {
-  return `something?`;
+  return `define view entity buffer on foobar
+  layer localization
+  type single`;
 }
 
 export const affExtras: {[sdf: string]: {contents: (name: string) => string, extension: string}[]} = {
