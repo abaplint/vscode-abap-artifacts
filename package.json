@@ -3,7 +3,7 @@
   "displayName": "ABAP Artifacts Helper",
   "description": "ABAP Artifacts Helper",
   "publisher": "larshp",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.83.0"
   },
@@ -18,18 +18,18 @@
   "categories": [
     "Other"
   ],
-	"activationEvents": [
-		"onLanguage:abap",
-		"onLanguage:abap_cds"
-	],
+  "activationEvents": [
+    "onLanguage:abap",
+    "onLanguage:abap_cds"
+  ],
   "browser": "./dist/web/extension.js",
   "contributes": {
     "commands": [
-			{
-				"command": "abap-artifacts.create.artifact",
-				"title": "Create ABAP Artifact",
-				"category": "abap-artifacts"
-			}
+      {
+        "command": "abap-artifacts.create.artifact",
+        "title": "Create ABAP Artifact",
+        "category": "abap-artifacts"
+      }
     ],
     "menus": {
       "explorer/context": [
