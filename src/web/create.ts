@@ -2,6 +2,7 @@ import * as vscode from "vscode";
 import { Utils } from 'vscode-uri';
 import { schemas } from "./aff_schemas";
 import { JSONSchemaFaker } from "json-schema-faker";
+import { affExtras } from "./aff_extras";
 
 async function createFile(path: string, filename: string, content: string) {
   const uri = vscode.Uri.joinPath(vscode.Uri.parse(path), filename);
@@ -74,6 +75,10 @@ function createAff(key: string) {
     const dir = await findFolder(uri);
     const json = JSON.stringify(sample, null, 2) + "\n";
     await createFile(dir, `${name}.${key}.json`, json);
+
+    for (const extra of affExtras[key] || []) {
+      await createFile(dir, `${name}.${key}.${extra.extension}`, extra.contents(name));
+    }
   };
   return ret;
 }
