@@ -1,5 +1,7 @@
 import * as vscode from "vscode";
 import { Utils } from 'vscode-uri';
+import { schemas } from "./aff_schemas";
+import { JSONSchemaFaker } from "json-schema-faker";
 
 async function createFile(path: string, filename: string, content: string) {
   const uri = vscode.Uri.joinPath(vscode.Uri.parse(path), filename);
@@ -35,11 +37,16 @@ async function fileExists(uri: vscode.Uri): Promise<boolean> {
 }
 
 export async function createArtifact(uri: vscode.Uri) {
-  const foo: {[name: string]: (uri: vscode.Uri) => void} = {
-    "Class (abapGit)": createCLAS,
-    "Interface (abapGit)": createINTF,
-    "Program (abapGit)": createPROG,
+  const foo: {[name: string]: (uri: vscode.Uri) => Promise<void>} = {
+    "CLAS - Class (abapGit)": createCLAS,
+    "INTF - Interface (abapGit)": createINTF,
+    "PROG - Program (abapGit)": createPROG,
   };
+
+  for (const key of Object.keys(schemas)) {
+    const schema = schemas[key];
+    foo[key.toUpperCase() + " - " + schema.title + " (AFF)"] = createAff(key);
+  }
 
   const type = await vscode.window.showQuickPick(Object.keys(foo));
 
@@ -49,8 +56,26 @@ export async function createArtifact(uri: vscode.Uri) {
 
   const fun = foo[type];
   if (fun) {
-    fun(uri);
+    await fun(uri);
   }
+}
+
+function createAff(key: string) {
+  const ret = async (uri: vscode.Uri) => {
+    let name = await vscode.window.showInputBox({placeHolder: "name"});
+    if (name === undefined || name === "") {
+      return;
+    }
+    // change namespace,
+    name = name.trim().replace("/", "(");
+    name = name.replace("/", ")");
+
+    const sample = JSONSchemaFaker.generate(schemas[key]);
+    const dir = await findFolder(uri);
+    const json = JSON.stringify(sample, null, 2);
+    await createFile(dir, `${name}.${key}.json`, json);
+  };
+  return ret;
 }
 
 async function createCLAS(uri: vscode.Uri) {
