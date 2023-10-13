@@ -1,0 +1,70 @@
+{
+  "name": "vscode-abap-artifacts",
+  "displayName": "ABAP Artifacts Helper",
+  "description": "ABAP Artifacts Helper",
+  "publisher": "larshp",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.83.0"
+  },
+  "keywords": [
+    "SAP",
+    "ABAP"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/abaplint/vscode-abap-artifacts"
+  },
+  "categories": [
+    "Other"
+  ],
+	"activationEvents": [
+		"onLanguage:abap",
+		"onLanguage:abap_cds"
+	],
+  "browser": "./dist/web/extension.js",
+  "contributes": {
+    "commands": [
+			{
+				"command": "abap-artifacts.create.artifact",
+				"title": "Create ABAP Artifact",
+				"category": "abap-artifacts"
+			}
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "abap-artifacts.create.artifact",
+          "group": "abap-artifacts@1"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "test": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. --extensionTestsPath=dist/web/test/suite/index.js",
+    "pretest": "npm run compile-web",
+    "vscode:prepublish": "npm run package-web",
+    "compile-web": "webpack",
+    "watch-web": "webpack --watch",
+    "package-web": "webpack --mode production --devtool hidden-source-map",
+    "lint": "eslint src --ext ts",
+    "run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. ."
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.83.0",
+    "@types/mocha": "^10.0.2",
+    "eslint": "^8.51.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.5",
+    "@typescript-eslint/parser": "^6.7.5",
+    "mocha": "^10.2.0",
+    "typescript": "^5.2.2",
+    "@vscode/test-web": "^0.0.47",
+    "ts-loader": "^9.5.0",
+    "vscode-uri": "^3.0.8",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "@types/webpack-env": "^1.18.2",
+    "assert": "^2.1.0",
+    "process": "^0.11.10"
+  }
+}
