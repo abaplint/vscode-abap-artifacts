@@ -72,7 +72,7 @@ function createAff(key: string) {
 
     const sample = JSONSchemaFaker.generate(schemas[key]);
     const dir = await findFolder(uri);
-    const json = JSON.stringify(sample, null, 2);
+    const json = JSON.stringify(sample, null, 2) + "\n";
     await createFile(dir, `${name}.${key}.json`, json);
   };
   return ret;
