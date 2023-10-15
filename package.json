@@ -3,7 +3,7 @@
   "displayName": "ABAP Artifacts Helper",
   "description": "ABAP Artifacts Helper",
   "publisher": "larshp",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "engines": {
     "vscode": "^1.83.0"
   },
@@ -31,23 +31,23 @@
         "category": "abap-artifacts"
       }
     ],
-		"views": {
-			"abap-artifacts": [
-				{
-					"id": "abap-artifacts.artifacts",
-					"name": "Artifacts"
-				}
-			]
-		},
+    "views": {
+      "abap-artifacts": [
+        {
+          "id": "abap-artifacts.artifacts",
+          "name": "Artifacts"
+        }
+      ]
+    },
     "viewsContainers": {
-			"activitybar": [
-				{
-					"id": "abap-artifacts",
-					"title": "ABAP Artifact Tree",
-					"icon": "standalone.svg"
-				}
-			]
-		},
+      "activitybar": [
+        {
+          "id": "abap-artifacts",
+          "title": "ABAP Artifact Tree",
+          "icon": "standalone.svg"
+        }
+      ]
+    },
     "menus": {
       "explorer/context": [
         {
