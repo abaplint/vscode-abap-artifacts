@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="61.179985mm"
+   height="30.190756mm"
+   viewBox="0 0 61.179985 30.190756"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   sodipodi:docname="logo.svg"
+   inkscape:export-filename="C:\Users\Lars\bitmap.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="4.192802"
+     inkscape:cx="104.584"
+     inkscape:cy="71.908953"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     fit-margin-top="1"
+     fit-margin-left="1"
+     fit-margin-right="1"
+     fit-margin-bottom="1"
+     lock-margins="true" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-55.275983,-55.67393)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:19.7556px;line-height:1.25;font-family:sans-serif;fill:#0000d5;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="56.044472"
+       y="71.037254"
+       id="text1970"><tspan
+         sodipodi:role="line"
+         id="tspan1968"
+         style="font-weight:bold;font-size:19.7556px;stroke-width:0.264583;fill:#0000d5;fill-opacity:1"
+         x="56.044472"
+         y="71.037254">ABAP</tspan></text>
+    <rect
+       style="font-size:19.7556px;line-height:1.25;fill:#0000d5;stroke-width:1.3048;fill-opacity:1"
+       id="rect9187"
+       width="3.7166941"
+       height="14.363328"
+       x="73.20829"
+       y="70.488159" />
+    <rect
+       style="font-size:19.7556px;line-height:1.25;fill:#0000d5;stroke-width:1.30078;fill-opacity:1"
+       id="rect9187-6"
+       width="3.700918"
+       height="14.33572"
+       x="103.60299"
+       y="70.528961" />
+    <rect
+       style="fill:#0000d5;stroke-width:0.634026;fill-opacity:1"
+       id="rect11681"
+       width="3.2814178"
+       height="2.6503756"
+       x="76.395821"
+       y="82.201111" />
+    <rect
+       style="fill:#0000d5;stroke-width:0.634026;fill-opacity:1"
+       id="rect11681-8"
+       width="3.2814178"
+       height="2.6503756"
+       x="106.77474"
+       y="82.21431" />
+    <path
+       style="fill:#0000d5;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+       d="m 81.025766,75.725017 c 10.41219,3.155208 18.615729,-0.631042 18.615729,-0.631042 0,0 -2.713475,4.101771 -8.960789,5.048334 -4.98523,-0.252417 -9.65494,-4.417292 -9.65494,-4.417292 z"
+       id="path11837"
+       sodipodi:nodetypes="cccc" />
+  </g>
+</svg>
