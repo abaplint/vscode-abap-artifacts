@@ -13,11 +13,11 @@ export async function findArtifacts(): Promise<ArtifactInformation[]> {
   const ret: ArtifactInformation[] = [];
 
   for (const folder of vscode.workspace.workspaceFolders || []) {
+    // todo: use folder.name as top level in artifact tree
     // todo: find abapGit xml to get starting folder
     const pattern = new vscode.RelativePattern(folder, "src/**/*.*");
     const filenames = await vscode.workspace.findFiles(pattern);
     for (const filename of filenames) {
-      console.log(filename.toString());
       const basename = Utils.basename(filename);
       if (basename === "package.devc.xml") {
         continue;

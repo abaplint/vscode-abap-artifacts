@@ -8,9 +8,6 @@ export class ArtifactsTreeProvider implements vscode.TreeDataProvider<ArtifactTr
   }
 
   public async getChildren(parent?: ArtifactTreeItem): Promise<ArtifactTreeItem[]> {
-    console.dir(parent);
-    console.dir("getchildren");
-
     if (parent !== undefined) {
       // todo, children here
       return [];
