@@ -40,6 +40,30 @@
       ]
     }
   },
+  "configuration": {
+    "type": "object",
+    "title": "abap-artifacts",
+    "properties": {
+      "abap-artifacts.defaultLanguage": {
+        "scope": "window",
+        "type": "string",
+        "default": "en",
+        "description": "AFF: Default language"
+      },
+      "abap-artifacts.clasNoDescriptions": {
+        "scope": "window",
+        "type": "boolean",
+        "default": true,
+        "description": "AFF CLAS: No descriptions"
+      },
+      "abap-artifacts.clasFixPointArithmetic": {
+        "scope": "window",
+        "type": "boolean",
+        "default": true,
+        "description": "AFF CLAS: fixPointArithmetic"
+      }
+    }
+  },
   "scripts": {
     "test": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. --extensionTestsPath=dist/web/test/suite/index.js",
     "pretest": "npm run compile-web",
@@ -51,23 +75,23 @@
     "run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. ."
   },
   "devDependencies": {
-    "@types/vscode": "^1.83.0",
     "@types/mocha": "^10.0.2",
-    "eslint": "^8.51.0",
+    "@types/vscode": "^1.83.0",
+    "@types/webpack-env": "^1.18.2",
     "@typescript-eslint/eslint-plugin": "^6.7.5",
     "@typescript-eslint/parser": "^6.7.5",
-    "mocha": "^10.2.0",
-    "typescript": "^5.2.2",
-    "buffer": "^6.0.3",
     "@vscode/test-web": "^0.0.47",
-    "json-schema-faker": "^0.5.3",
-    "url": "^0.11.3",
-    "ts-loader": "^9.5.0",
-    "vscode-uri": "^3.0.8",
-    "webpack": "^5.88.2",
-    "webpack-cli": "^5.1.4",
-    "@types/webpack-env": "^1.18.2",
     "assert": "^2.1.0",
-    "process": "^0.11.10"
+    "buffer": "^6.0.3",
+    "eslint": "^8.51.0",
+    "json-schema-faker": "^0.5.3",
+    "mocha": "^10.2.0",
+    "process": "^0.11.10",
+    "ts-loader": "^9.5.0",
+    "typescript": "^5.2.2",
+    "url": "^0.11.3",
+    "vscode-uri": "^3.0.8",
+    "webpack-cli": "^5.1.4",
+    "webpack": "^5.88.2"
   }
 }

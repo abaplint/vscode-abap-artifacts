@@ -71,8 +71,23 @@ function createAff(key: string) {
     name = name.trim().replace("/", "(");
     name = name.replace("/", ")");
 
-    const sample = JSONSchemaFaker.generate(schemas[key]);
     const dir = await findFolder(uri);
+
+    const sample = JSONSchemaFaker.generate(schemas[key]) as any;
+
+    if (sample?.header?.originalLanguage) {
+      sample.header.originalLanguage = vscode.workspace.getConfiguration("abap-artifacts").get("defaultLanguage", "en");
+    }
+    if (sample?.header?.description) {
+      sample.header.description = name;
+    }
+    if (key === "clas" && vscode.workspace.getConfiguration("abap-artifacts").get("clasNoDescriptions", true)) {
+      delete sample.descriptions;
+    }
+    if (key === "clas") {
+      sample.fixPointArithmetic = vscode.workspace.getConfiguration("abap-artifacts").get("clasFixPointArithmetic", true);
+    }
+
     const json = JSON.stringify(sample, null, 2) + "\n";
     await createFile(dir, `${name}.${key}.json`, json);
 
