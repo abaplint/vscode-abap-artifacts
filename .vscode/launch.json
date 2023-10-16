@@ -12,7 +12,7 @@
 			"request": "launch",
 			"sourceMaps": true,
 			"args": [
-				"--extensionDevelopmentPath=${workspaceFolder}",
+				"--extensionDevelopmentPath=${workspaceFolder}/src",
 				"--extensionDevelopmentKind=web"
 			],
 			"outFiles": [
