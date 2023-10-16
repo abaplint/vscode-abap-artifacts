@@ -3,7 +3,7 @@
   "displayName": "ABAP Artifacts Helper",
   "description": "ABAP Artifacts Helper",
   "publisher": "larshp",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "engines": {
     "vscode": "^1.80.0"
   },
