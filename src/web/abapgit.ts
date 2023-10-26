@@ -15,7 +15,6 @@ export class abapGit {
     }
 
     const xml = new TextDecoder().decode(result);
-    console.dir(xml);
     const match = xml.match(/<STARTING_FOLDER>(.*)<\/STARTING_FOLDER>/);
     if (match) {
       const found = match[1];
