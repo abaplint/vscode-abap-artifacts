@@ -13,7 +13,6 @@ export interface ArtifactInformation {
 export async function findArtifacts(): Promise<ArtifactInformation[]> {
   const ret: ArtifactInformation[] = [];
 
-  console.dir("SDFSDFSDFSDFSDFSDFSDFSDF");
   for (const folder of vscode.workspace.workspaceFolders || []) {
     // todo: use folder.name as top level in artifact tree
     // todo: find abapGit xml to get starting folder
