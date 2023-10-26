@@ -34,7 +34,7 @@ export class ArtifactTreeItem extends vscode.TreeItem {
     }
 
     super(info.name, state);
-    this.iconPath =  vscode.ThemeIcon.File;
+    this.iconPath = info.isFolder === true ? vscode.ThemeIcon.Folder : vscode.ThemeIcon.File;
     this.description = info.description;
     this.resourceUri = info.file;
     this.sub = info.sub;

@@ -6,7 +6,7 @@ export interface AnyArtifact {
   name: string,
   description: string,
   file: vscode.Uri,
-
+  isFolder: boolean,
   sub: AnyArtifact[];
 };
 
@@ -63,6 +63,7 @@ function buildFolder(path: string, filenames: vscode.Uri[]): AnyArtifact {
         name: Utils.basename(filename),
         description: "",
         sub: [],
+        isFolder: false,
         file: filename,
       });
     } else {
@@ -70,6 +71,7 @@ function buildFolder(path: string, filenames: vscode.Uri[]): AnyArtifact {
         name: name,
         description: type,
         file: filename,
+        isFolder: false,
         sub: [],
       });
     }
@@ -78,6 +80,7 @@ function buildFolder(path: string, filenames: vscode.Uri[]): AnyArtifact {
   const parsed = vscode.Uri.parse(path);
   return {
     name: Utils.basename(parsed),
+    isFolder: true,
     description: "",
     file: parsed,
     sub: sub,
