@@ -12,8 +12,8 @@ export class ArtifactsTreeProvider implements vscode.TreeDataProvider<ArtifactTr
     if (parent !== undefined) {
       for (const sub of parent.subFiles) {
         treeItems.push(new ArtifactTreeItem({
-          type: "",
-          name: sub.name,
+          abapType: "",
+          abapName: sub.name,
           description: "",
           mainFile: sub.file,
           subFiles: [],
@@ -39,8 +39,8 @@ export class ArtifactTreeItem extends vscode.TreeItem {
       state = vscode.TreeItemCollapsibleState.Collapsed;
     }
 
-    super(info.name, state);
-    this.tooltip = info.type;
+    super(info.abapName, state);
+    this.tooltip = info.abapType;
     this.subFiles = info.subFiles;
     this.iconPath =  vscode.ThemeIcon.File;
     this.description = info.description;

@@ -4,13 +4,13 @@ import { abapGit } from './abapgit';
 
 export type SubFiles = {name: string, file: vscode.Uri}[];
 
-export interface ArtifactInformation {
-  type: string,
-  name: string,
+export type ArtifactInformation = {
+  abapType: string,
+  abapName: string,
   description: string,
   mainFile: vscode.Uri,
   subFiles: SubFiles;
-}
+};
 
 export async function findArtifacts(): Promise<ArtifactInformation[]> {
   const ret: ArtifactInformation[] = [];
@@ -35,13 +35,13 @@ export async function findArtifacts(): Promise<ArtifactInformation[]> {
 
       const type = split[1].toUpperCase();
       const name = split[0].toUpperCase();
-      const found = ret.find((r) => r.type === type && r.name === name);
+      const found = ret.find((r) => r.abapType === type && r.abapName === name);
       if (found) {
         found.subFiles.push({name: Utils.basename(filename), file: filename});
       } else {
         ret.push({
-          type: type,
-          name: name,
+          abapType: type,
+          abapName: name,
           description: type,
           mainFile: filename,
           subFiles: [],
