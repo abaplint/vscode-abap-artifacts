@@ -2,12 +2,14 @@ import * as vscode from 'vscode';
 import { Utils } from 'vscode-uri';
 import { abapGit } from './abapgit';
 
+export type SubFiles = {name: string, file: vscode.Uri}[];
+
 export interface ArtifactInformation {
   type: string,
   name: string,
   description: string,
   mainFile: vscode.Uri,
-  subFiles: {name: string, file: string}[];
+  subFiles: SubFiles;
 }
 
 export async function findArtifacts(): Promise<ArtifactInformation[]> {
@@ -24,19 +26,27 @@ export async function findArtifacts(): Promise<ArtifactInformation[]> {
       if (basename === "package.devc.xml") {
         continue;
       }
+
       const split = basename.split(".");
       if (split.length < 3) {
         // then its not a abapGit or AFF file
         continue;
       }
-      // todo: need more logic here,
-      ret.push({
-        type: split[1].toUpperCase() + "sdf",
-        name: split[0].toUpperCase(),
-        description: "",
-        mainFile: filename,
-        subFiles: [],
-      });
+
+      const type = split[1].toUpperCase();
+      const name = split[0].toUpperCase();
+      const found = ret.find((r) => r.type === type && r.name === name);
+      if (found) {
+        found.subFiles.push({name: Utils.basename(filename), file: filename});
+      } else {
+        ret.push({
+          type: type,
+          name: name,
+          description: type,
+          mainFile: filename,
+          subFiles: [],
+        });
+      }
     }
   }
 
