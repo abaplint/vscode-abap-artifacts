@@ -29,7 +29,9 @@ export class ArtifactTreeItem extends vscode.TreeItem {
 
   public constructor(info: AnyArtifact) {
     let state = vscode.TreeItemCollapsibleState.None;
-    if (info.sub.length > 0) {
+    if (info.expand === true) {
+      state = vscode.TreeItemCollapsibleState.Expanded;
+    } else if (info.sub.length > 0) {
       state = vscode.TreeItemCollapsibleState.Collapsed;
     }
 

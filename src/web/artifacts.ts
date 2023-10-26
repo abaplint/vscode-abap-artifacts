@@ -7,6 +7,7 @@ export interface AnyArtifact {
   description: string,
   file: vscode.Uri,
   isFolder: boolean,
+  expand: boolean,
   sub: AnyArtifact[];
 };
 
@@ -64,6 +65,7 @@ function buildFolder(path: string, filenames: vscode.Uri[]): AnyArtifact {
         description: "",
         sub: [],
         isFolder: false,
+        expand: false,
         file: filename,
       });
     } else {
@@ -72,6 +74,7 @@ function buildFolder(path: string, filenames: vscode.Uri[]): AnyArtifact {
         description: type,
         file: filename,
         isFolder: false,
+        expand: false,
         sub: [],
       });
     }
@@ -83,6 +86,7 @@ function buildFolder(path: string, filenames: vscode.Uri[]): AnyArtifact {
     isFolder: true,
     description: "",
     file: parsed,
+    expand: false,
     sub: sub,
   };
 }
@@ -97,12 +101,14 @@ export async function findArtifacts(): Promise<AnyArtifact[]> {
     const pattern = new vscode.RelativePattern(folder, startingPattern);
 
     const filenames = await vscode.workspace.findFiles(pattern);
+    filenames.sort();
 
     const top = findTopFolder(filenames);
     if (top === undefined) {
       return [];
     }
     ret.push(buildFolder(top, filenames));
+    ret[0].expand = true;
   }
 
   return ret;
