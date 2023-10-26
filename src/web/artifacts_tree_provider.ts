@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { ArtifactInformation, findArtifacts } from "./artifacts";
+import { AnyArtifact, findArtifacts } from "./artifacts";
 
 export class ArtifactsTreeProvider implements vscode.TreeDataProvider<ArtifactTreeItem> {
 
@@ -8,31 +8,36 @@ export class ArtifactsTreeProvider implements vscode.TreeDataProvider<ArtifactTr
   }
 
   public async getChildren(parent?: ArtifactTreeItem): Promise<ArtifactTreeItem[]> {
+    const treeItems: ArtifactTreeItem[] = [];
     if (parent !== undefined) {
-      // todo, children here
-      return [];
+      for (const sub of parent.sub) {
+        treeItems.push(new ArtifactTreeItem(sub));
+      }
     } else {
       const items = await findArtifacts();
-      const treeItems: ArtifactTreeItem[] = [];
       for (const i of items) {
         treeItems.push(new ArtifactTreeItem(i));
       }
-      return treeItems;
     }
+
+    return treeItems;
   }
 }
 
 export class ArtifactTreeItem extends vscode.TreeItem {
-  public constructor(info: ArtifactInformation) {
+  public readonly sub: AnyArtifact[];
+
+  public constructor(info: AnyArtifact) {
     let state = vscode.TreeItemCollapsibleState.None;
-    if (info.subFiles.length > 0) {
+    if (info.sub.length > 0) {
       state = vscode.TreeItemCollapsibleState.Collapsed;
     }
 
     super(info.name, state);
-    this.tooltip = info.type;
+    this.iconPath = info.isFolder === true ? vscode.ThemeIcon.Folder : vscode.ThemeIcon.File;
     this.description = info.description;
-    this.resourceUri = info.mainFile;
+    this.resourceUri = info.file;
+    this.sub = info.sub;
 
     this.command = {
       command: "vscode.open",

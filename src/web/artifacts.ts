@@ -1,41 +1,108 @@
 import * as vscode from 'vscode';
 import { Utils } from 'vscode-uri';
+import { abapGit } from './abapgit';
 
-export interface ArtifactInformation {
-  type: string,
+export interface AnyArtifact {
   name: string,
   description: string,
-  mainFile: vscode.Uri,
-  subFiles: {name: string, file: string}[];
+  file: vscode.Uri,
+  isFolder: boolean,
+  sub: AnyArtifact[];
+};
+
+/////////////////////////
+
+function findTopFolder(filenames: vscode.Uri[]): string | undefined {
+  const folders = new Set<string>();
+  for (const filename of filenames) {
+    folders.add(Utils.dirname(filename).toString());
+  }
+  const list = Array.from(folders).sort();
+  return list[0];
 }
 
-export async function findArtifacts(): Promise<ArtifactInformation[]> {
-  const ret: ArtifactInformation[] = [];
+function findSubFolders(path: string, filenames: vscode.Uri[]): string[] {
+  const folders = new Set<string>();
+  for (const filename of filenames) {
+    folders.add(Utils.dirname(filename).toString());
+  }
+  const list = Array.from(folders).filter(f => f.replace(path, "").split("/").length === 2);
+  return list.sort();
+}
+
+function buildFolder(path: string, filenames: vscode.Uri[]): AnyArtifact {
+  const sub: AnyArtifact[] = [];
+
+  const subFolders = findSubFolders(path, filenames);
+  for (const subFolder of subFolders) {
+    sub.push(buildFolder(subFolder, filenames));
+  }
+
+  for (const filename of filenames) {
+    const dirname = Utils.dirname(filename).toString();
+    if (dirname !== path) {
+      continue;
+    }
+
+    const basename = Utils.basename(filename);
+    if (basename === "package.devc.xml") {
+      continue;
+    }
+
+    const split = basename.split(".");
+    if (split.length < 3) {
+      // then its not a abapGit or AFF file
+      continue;
+    }
+
+    const type = split[1].toUpperCase();
+    const name = split[0].toUpperCase();
+    const found = sub.find((r) => r.name === name && r.description === type);
+    if (found) {
+      found.sub.push({
+        name: Utils.basename(filename),
+        description: "",
+        sub: [],
+        isFolder: false,
+        file: filename,
+      });
+    } else {
+      sub.push({
+        name: name,
+        description: type,
+        file: filename,
+        isFolder: false,
+        sub: [],
+      });
+    }
+  }
+
+  const parsed = vscode.Uri.parse(path);
+  return {
+    name: Utils.basename(parsed),
+    isFolder: true,
+    description: "",
+    file: parsed,
+    sub: sub,
+  };
+}
+
+export async function findArtifacts(): Promise<AnyArtifact[]> {
+  const ret: AnyArtifact[] = [];
 
   for (const folder of vscode.workspace.workspaceFolders || []) {
     // todo: use folder.name as top level in artifact tree
-    // todo: find abapGit xml to get starting folder
-    const pattern = new vscode.RelativePattern(folder, "src/**/*.*");
+
+    const startingPattern = await abapGit.findStartingFolderPattern(folder.uri);
+    const pattern = new vscode.RelativePattern(folder, startingPattern);
+
     const filenames = await vscode.workspace.findFiles(pattern);
-    for (const filename of filenames) {
-      const basename = Utils.basename(filename);
-      if (basename === "package.devc.xml") {
-        continue;
-      }
-      const split = basename.split(".");
-      if (split.length < 3) {
-        // then its not a abapGit or AFF file
-        continue;
-      }
-      // todo: need more logic here,
-      ret.push({
-        type: split[1].toUpperCase(),
-        name: split[0].toUpperCase(),
-        description: "",
-        mainFile: filename,
-        subFiles: [],
-      });
+
+    const top = findTopFolder(filenames);
+    if (top === undefined) {
+      return [];
     }
+    ret.push(buildFolder(top, filenames));
   }
 
   return ret;

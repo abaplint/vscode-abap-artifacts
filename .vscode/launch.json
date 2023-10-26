@@ -7,12 +7,11 @@
 	"configurations": [
 		{
 			"name": "Run Web Extension ",
-			"type": "pwa-extensionHost",
+			"type": "extensionHost",
 			"debugWebWorkerHost": true,
 			"request": "launch",
-			"sourceMaps": true,
 			"args": [
-				"--extensionDevelopmentPath=${workspaceFolder}/src",
+				"--extensionDevelopmentPath=${workspaceFolder}",
 				"--extensionDevelopmentKind=web"
 			],
 			"outFiles": [
