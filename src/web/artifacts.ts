@@ -15,10 +15,9 @@ export async function findArtifacts(): Promise<ArtifactInformation[]> {
 
   for (const folder of vscode.workspace.workspaceFolders || []) {
     // todo: use folder.name as top level in artifact tree
-    // todo: find abapGit xml to get starting folder
-    await abapGit.findStartingFolder(folder.uri);
 
-    const pattern = new vscode.RelativePattern(folder, "src/**/*.*");
+    const startingPattern = await abapGit.findStartingFolderPattern(folder.uri);
+    const pattern = new vscode.RelativePattern(folder, startingPattern);
     const filenames = await vscode.workspace.findFiles(pattern);
     for (const filename of filenames) {
       const basename = Utils.basename(filename);
