@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { Utils } from 'vscode-uri';
+import { abapGit } from './abapgit';
 
 export interface ArtifactInformation {
   type: string,
@@ -12,9 +13,12 @@ export interface ArtifactInformation {
 export async function findArtifacts(): Promise<ArtifactInformation[]> {
   const ret: ArtifactInformation[] = [];
 
+  console.dir("SDFSDFSDFSDFSDFSDFSDFSDF");
   for (const folder of vscode.workspace.workspaceFolders || []) {
     // todo: use folder.name as top level in artifact tree
     // todo: find abapGit xml to get starting folder
+    await abapGit.findStartingFolder(folder.uri);
+
     const pattern = new vscode.RelativePattern(folder, "src/**/*.*");
     const filenames = await vscode.workspace.findFiles(pattern);
     for (const filename of filenames) {
@@ -29,7 +33,7 @@ export async function findArtifacts(): Promise<ArtifactInformation[]> {
       }
       // todo: need more logic here,
       ret.push({
-        type: split[1].toUpperCase(),
+        type: split[1].toUpperCase() + "sdf",
         name: split[0].toUpperCase(),
         description: "",
         mainFile: filename,
