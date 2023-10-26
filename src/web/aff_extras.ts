@@ -39,7 +39,7 @@ function ddlx(name: string) {
 function drty(name: string) {
   return `@EndUserText.label : 'This is a test label simple type'
 @EndUserText.quickInfo : 'This is the quick info for the simple type'
-define type ${name.toLowerCase()} : abap.char( 10 ); `;
+define type ${name.toLowerCase()} : abap.char( 10 );`;
 }
 
 function dteb(name: string) {
