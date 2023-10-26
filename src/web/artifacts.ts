@@ -2,18 +2,18 @@ import * as vscode from 'vscode';
 import { Utils } from 'vscode-uri';
 import { abapGit } from './abapgit';
 
-export type SubFiles = {name: string, file: vscode.Uri}[];
-
-export type ArtifactInformation = {
-  abapType: string,
-  abapName: string,
+export interface AnyArtifact {
+  name: string,
   description: string,
-  mainFile: vscode.Uri,
-  subFiles: SubFiles;
+  file: vscode.Uri,
+
+  sub: AnyArtifact[];
 };
 
-export async function findArtifacts(): Promise<ArtifactInformation[]> {
-  const ret: ArtifactInformation[] = [];
+/////////////////////////
+
+export async function findArtifacts(): Promise<AnyArtifact[]> {
+  const ret: AnyArtifact[] = [];
 
   for (const folder of vscode.workspace.workspaceFolders || []) {
     // todo: use folder.name as top level in artifact tree
@@ -35,16 +35,20 @@ export async function findArtifacts(): Promise<ArtifactInformation[]> {
 
       const type = split[1].toUpperCase();
       const name = split[0].toUpperCase();
-      const found = ret.find((r) => r.abapType === type && r.abapName === name);
+      const found = ret.find((r) => r.name === name && r.description === type);
       if (found) {
-        found.subFiles.push({name: Utils.basename(filename), file: filename});
+        found.sub.push({
+          name: Utils.basename(filename),
+          description: "",
+          sub: [],
+          file: filename,
+        });
       } else {
         ret.push({
-          abapType: type,
-          abapName: name,
+          name: name,
           description: type,
-          mainFile: filename,
-          subFiles: [],
+          file: filename,
+          sub: [],
         });
       }
     }
