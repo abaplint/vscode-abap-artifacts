@@ -3,7 +3,7 @@
   "displayName": "ABAP Artifacts Helper",
   "description": "ABAP Artifacts Helper",
   "publisher": "larshp",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "engines": {
     "vscode": "^1.80.0"
   },
@@ -71,9 +71,9 @@
     "menus": {
       "view/title": [
         {
-            "command": "abap-artifacts.tree.refresh",
-            "when": "view == abap-artifacts.artifacts",
-            "group": "navigation"
+          "command": "abap-artifacts.tree.refresh",
+          "when": "view == abap-artifacts.artifacts",
+          "group": "navigation"
         }
       ],
       "view/item/context": [
