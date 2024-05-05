@@ -3,6 +3,13 @@ import { AnyArtifact, findArtifacts } from "./artifacts";
 
 export class ArtifactsTreeProvider implements vscode.TreeDataProvider<ArtifactTreeItem> {
 
+	private _onDidChangeTreeData: vscode.EventEmitter<ArtifactTreeItem | undefined | void> = new vscode.EventEmitter<ArtifactTreeItem | undefined | void>();
+	readonly onDidChangeTreeData: vscode.Event<ArtifactTreeItem | undefined | void> = this._onDidChangeTreeData.event;
+
+	public refresh(): void {
+		this._onDidChangeTreeData.fire();
+	}
+
   public getTreeItem(element: ArtifactTreeItem): vscode.TreeItem {
     return element;
   }
@@ -49,5 +56,5 @@ export class ArtifactTreeItem extends vscode.TreeItem {
     };
   }
 
-  public contextValue = "abap-artifacts-context";
+//  public contextValue = "abap-artifacts-context";
 }
