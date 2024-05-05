@@ -8,6 +8,7 @@ export interface AnyArtifact {
   file: vscode.Uri,
   isFolder: boolean,
   expand: boolean,
+  contextValue: string,
   sub: AnyArtifact[];
 };
 
@@ -77,6 +78,7 @@ async function buildFolder(path: string, filenames: vscode.Uri[]): Promise<AnyAr
         isFolder: false,
         expand: false,
         file: filename,
+        contextValue: "",
       });
     } else {
       sub.push({
@@ -86,6 +88,7 @@ async function buildFolder(path: string, filenames: vscode.Uri[]): Promise<AnyAr
         isFolder: false,
         expand: false,
         sub: [],
+        contextValue: "rename,delete",
       });
     }
   }
@@ -98,6 +101,7 @@ async function buildFolder(path: string, filenames: vscode.Uri[]): Promise<AnyAr
     file: packageXmlUri || parsed,
     expand: false,
     sub: sub,
+    contextValue: "create,delete",
   };
 }
 

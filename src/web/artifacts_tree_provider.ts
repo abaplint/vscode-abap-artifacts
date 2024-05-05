@@ -40,6 +40,7 @@ export class ArtifactTreeItem extends vscode.TreeItem {
     this.description = info.description;
     this.resourceUri = info.file;
     this.sub = info.sub;
+    this.contextValue = info.contextValue;
 
     this.command = {
       command: "vscode.open",
