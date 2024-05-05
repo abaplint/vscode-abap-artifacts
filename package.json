@@ -92,23 +92,23 @@
     "run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. ."
   },
   "devDependencies": {
-    "@types/mocha": "^10.0.4",
+    "@types/mocha": "^10.0.6",
     "@types/vscode": "=1.80.0",
     "@types/webpack-env": "^1.18.4",
-    "@typescript-eslint/eslint-plugin": "^6.10.0",
-    "@typescript-eslint/parser": "^6.10.0",
-    "@vscode/test-web": "^0.0.48",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "@vscode/test-web": "^0.0.54",
     "assert": "^2.1.0",
     "buffer": "^6.0.3",
-    "eslint": "^8.53.0",
-    "json-schema-faker": "^0.5.3",
-    "mocha": "^10.2.0",
+    "eslint": "^8.57.0",
+    "json-schema-faker": "^0.5.6",
+    "mocha": "^10.4.0",
     "process": "^0.11.10",
-    "ts-loader": "^9.5.0",
-    "typescript": "^5.2.2",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.4.5",
     "url": "^0.11.3",
     "vscode-uri": "^3.0.8",
     "webpack-cli": "^5.1.4",
-    "webpack": "^5.89.0"
+    "webpack": "^5.91.0"
   }
 }

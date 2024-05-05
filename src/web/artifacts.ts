@@ -31,12 +31,14 @@ function findSubFolders(path: string, filenames: vscode.Uri[]): string[] {
   return list.sort();
 }
 
-function buildFolder(path: string, filenames: vscode.Uri[]): AnyArtifact {
+async function buildFolder(path: string, filenames: vscode.Uri[]): Promise<AnyArtifact> {
   const sub: AnyArtifact[] = [];
+  let packageDescription = "";
+  let packageXmlUri:  vscode.Uri | undefined = undefined;
 
   const subFolders = findSubFolders(path, filenames);
   for (const subFolder of subFolders) {
-    sub.push(buildFolder(subFolder, filenames));
+    sub.push(await buildFolder(subFolder, filenames));
   }
 
   for (const filename of filenames) {
@@ -47,6 +49,14 @@ function buildFolder(path: string, filenames: vscode.Uri[]): AnyArtifact {
 
     const basename = Utils.basename(filename);
     if (basename === "package.devc.xml") {
+      packageXmlUri = vscode.Uri.parse(path + "/package.devc.xml");
+      const xml = new TextDecoder().decode(await vscode.workspace.fs.readFile(packageXmlUri));
+      packageDescription = xml.match(/<CTEXT>(.*)<\/CTEXT>/)?.[1] || "";
+      packageDescription = packageDescription.replaceAll("&amp;", "&");
+      packageDescription = packageDescription.replaceAll("&lt;", "<");
+      packageDescription = packageDescription.replaceAll("&gt;", ">");
+      packageDescription = packageDescription.replaceAll("&quot;", "\"");
+      packageDescription = packageDescription.replaceAll("&apos;", "'");
       continue;
     }
 
@@ -84,8 +94,8 @@ function buildFolder(path: string, filenames: vscode.Uri[]): AnyArtifact {
   return {
     name: Utils.basename(parsed),
     isFolder: true,
-    description: "",
-    file: parsed,
+    description: packageDescription,
+    file: packageXmlUri || parsed,
     expand: false,
     sub: sub,
   };
@@ -107,7 +117,7 @@ export async function findArtifacts(): Promise<AnyArtifact[]> {
     if (top === undefined) {
       return [];
     }
-    ret.push(buildFolder(top, filenames));
+    ret.push(await buildFolder(top, filenames));
     ret[0].expand = true;
   }
 
