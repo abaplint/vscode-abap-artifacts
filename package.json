@@ -29,6 +29,26 @@
         "command": "abap-artifacts.create.artifact",
         "title": "Create ABAP Artifact",
         "category": "abap-artifacts"
+      },
+      {
+        "command": "abap-artifacts.tree.create",
+        "title": "Create"
+      },
+      {
+        "command": "abap-artifacts.tree.rename",
+        "title": "Rename"
+      },
+      {
+        "command": "abap-artifacts.tree.delete",
+        "title": "Delete"
+      },
+      {
+        "command": "abap-artifacts.tree.refresh",
+        "title": "Refresh",
+        "icon": {
+          "light": "resources/light/refresh.svg",
+          "dark": "resources/dark/refresh.svg"
+        }
       }
     ],
     "views": {
@@ -49,6 +69,27 @@
       ]
     },
     "menus": {
+      "view/title": [
+        {
+            "command": "abap-artifacts.tree.refresh",
+            "when": "view == abap-artifacts.artifacts",
+            "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "abap-artifacts.tree.create",
+          "when": "view == abap-artifacts.artifacts && viewItem =~ /create/"
+        },
+        {
+          "command": "abap-artifacts.tree.rename",
+          "when": "view == abap-artifacts.artifacts && viewItem =~ /rename/"
+        },
+        {
+          "command": "abap-artifacts.tree.delete",
+          "when": "view == abap-artifacts.artifacts && viewItem =~ /delete/"
+        }
+      ],
       "explorer/context": [
         {
           "command": "abap-artifacts.create.artifact",
