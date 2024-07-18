@@ -5,7 +5,7 @@
   "publisher": "larshp",
   "version": "0.0.17",
   "engines": {
-    "vscode": "^1.80.0"
+    "vscode": "^1.91.0"
   },
   "keywords": [
     "SAP",
