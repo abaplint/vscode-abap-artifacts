@@ -38,6 +38,11 @@ async function fileExists(uri: vscode.Uri): Promise<boolean> {
 }
 
 export async function createArtifact(uri: vscode.Uri) {
+  if (uri === undefined) {
+    vscode.window.showErrorMessage('Right click folder in explorer view', {modal: true});
+    return;
+  }
+
   const foo: {[name: string]: (uri: vscode.Uri) => Promise<void>} = {
     "CLAS - Class (abapGit)": createCLAS,
     "INTF - Interface (abapGit)": createINTF,
@@ -46,7 +51,8 @@ export async function createArtifact(uri: vscode.Uri) {
 
   for (const key of Object.keys(schemas)) {
     const schema = schemas[key];
-    foo[key.toUpperCase() + " - " + schema.title + " (AFF)"] = createAff(key);
+    const [name, version] = key.split("-");
+    foo[name.toUpperCase() + " - " + version + " - " + schema.title + " (AFF)"] = createAff(key);
   }
 
   const type = await vscode.window.showQuickPick(Object.keys(foo));
