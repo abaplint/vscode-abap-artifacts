@@ -261,10 +261,10 @@ async function createFUGR(uri: vscode.Uri) {
 </abapGit>`;
   await createFile(dir, filename + ".l" + groupName.toLowerCase() + "top.xml", topXML);
 
-  const topABAP = `FUNCTION-POOL ${groupName.toUpperCase()}.\n\n`;
+  const topABAP = `FUNCTION-POOL ${groupName.toLowerCase()}.\n\n`;
   await createFile(dir, filename + ".l" + groupName.toLowerCase() + "top.abap", topABAP);
 
-  const fmABAP = `FUNCTION ${moduleName.toUpperCase()}.
+  const fmABAP = `FUNCTION ${moduleName.toLowerCase()}.
 *"----------------------------------------------------------------------
 *"*"Local Interface:
 *"----------------------------------------------------------------------
