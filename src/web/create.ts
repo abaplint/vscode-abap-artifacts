@@ -242,6 +242,32 @@ async function createFUGR(uri: vscode.Uri) {
 </abapGit>`;
   await createFile(dir, filename + ".xml", dataXML);
 
+  const mainXML = `<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <PROGDIR>
+    <NAME>SAPL${groupName.toUpperCase()}</NAME>
+    <DBAPL>S</DBAPL>
+    <DBNA>D$</DBNA>
+    <SUBC>F</SUBC>
+    <APPL>S</APPL>
+    <RLOAD>E</RLOAD>
+    <FIXPT>X</FIXPT>
+    <LDBNAME>D$S</LDBNAME>
+    <UCCHECK>X</UCCHECK>
+   </PROGDIR>
+  </asx:values>
+ </asx:abap>
+</abapGit>`;
+  await createFile(dir, filename + ".sapl" + groupName.toLowerCase() + ".xml", mainXML);
+
+  const mainABAP = `
+INCLUDE L${groupName.toUpperCase()}TOP.
+INCLUDE L${groupName.toUpperCase()}UXX.
+`;
+  await createFile(dir, filename + ".sapl" + groupName.toLowerCase() + ".abap", mainABAP);
+
   const topXML = `<?xml version="1.0" encoding="utf-8"?>
 <abapGit version="v1.0.0">
  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
