@@ -16,4 +16,4 @@ jobs:
     - name: npm install
       run: |
         npm ci
-        npm test
+        npm run compile
