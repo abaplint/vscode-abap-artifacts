@@ -272,5 +272,5 @@ async function createFUGR(uri: vscode.Uri) {
   WRITE / 'Hello world'.
 
 ENDFUNCTION.`;
-  await createFile(dir, filename + "." + moduleName.toLowerCase() + ".abap", fmABAP);
+  await createFile(dir, filename + "." + moduleName.toLowerCase().replaceAll("/", "#") + ".abap", fmABAP);
 }
