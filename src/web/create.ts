@@ -47,6 +47,7 @@ export async function createArtifact(uri: vscode.Uri) {
     "CLAS - Class (abapGit)": createCLAS,
     "INTF - Interface (abapGit)": createINTF,
     "PROG - Program (abapGit)": createPROG,
+    "FUGR - Function Group (abapGit)": createFUGR,
   };
 
   for (const key of Object.keys(schemas)) {
@@ -206,4 +207,70 @@ async function createPROG(uri: vscode.Uri) {
   const uriABAP = filename + ".abap";
   const dataABAP = `REPORT ${name.toLowerCase()}.\n\n`;
   await createFile(dir, uriABAP, dataABAP);
+}
+
+async function createFUGR(uri: vscode.Uri) {
+  const groupName = await vscode.window.showInputBox({placeHolder: "z_fugr"});
+  if (groupName === undefined || groupName === "") {
+    return;
+  }
+  const moduleName = await vscode.window.showInputBox({placeHolder: "zfunction_module"});
+  if (moduleName === undefined || moduleName === "") {
+    return;
+  }
+
+  const dir = await findFolder(uri);
+  const filename = groupName.toLowerCase() + ".fugr";
+
+  const dataXML = `<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_FUGR" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <AREAT>test</AREAT>
+   <INCLUDES>
+    <SOBJ_NAME>L${groupName.toUpperCase()}TOP</SOBJ_NAME>
+    <SOBJ_NAME>SAPL${groupName.toUpperCase()}</SOBJ_NAME>
+   </INCLUDES>
+   <FUNCTIONS>
+    <item>
+     <FUNCNAME>${moduleName.toUpperCase()}</FUNCNAME>
+     <SHORT_TEXT>test</SHORT_TEXT>
+    </item>
+   </FUNCTIONS>
+  </asx:values>
+ </asx:abap>
+</abapGit>`;
+  await createFile(dir, filename + ".xml", dataXML);
+
+  const topXML = `<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <PROGDIR>
+    <NAME>L${groupName.toUpperCase()}TOP</NAME>
+    <DBAPL>S</DBAPL>
+    <DBNA>D$</DBNA>
+    <SUBC>I</SUBC>
+    <APPL>S</APPL>
+    <FIXPT>X</FIXPT>
+    <LDBNAME>D$S</LDBNAME>
+    <UCCHECK>X</UCCHECK>
+   </PROGDIR>
+  </asx:values>
+ </asx:abap>
+</abapGit>`;
+  await createFile(dir, filename + ".l" + groupName.toLowerCase() + "top.xml", topXML);
+
+  const topABAP = `FUNCTION-POOL ${groupName.toUpperCase()}.\n\n`;
+  await createFile(dir, filename + ".l" + groupName.toLowerCase() + "top.abap", topABAP);
+
+  const fmABAP = `FUNCTION ${moduleName.toUpperCase()}.
+*"----------------------------------------------------------------------
+*"*"Local Interface:
+*"----------------------------------------------------------------------
+
+  WRITE / 'Hello world'.
+
+ENDFUNCTION.`;
+  await createFile(dir, filename + "." + moduleName.toLowerCase() + ".abap", fmABAP);
 }
