@@ -16,4 +16,4 @@ jobs:
     - name: npm install
       run: |
         npm ci
-        npm run pretest
+        npm test
