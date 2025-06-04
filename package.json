@@ -3,7 +3,7 @@
   "displayName": "ABAP Artifacts Helper",
   "description": "ABAP Artifacts Helper",
   "publisher": "larshp",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "engines": {
     "vscode": "^1.91.0"
   },
@@ -70,11 +70,11 @@
       ]
     },
     "keybindings": [
-			{
-				"command": "workbench.action.quickOpen",
-				"key": "ctrl+shift+a",
-				"when": "true"
-			}
+      {
+        "command": "workbench.action.quickOpen",
+        "key": "ctrl+shift+a",
+        "when": "true"
+      }
     ],
     "menus": {
       "view/title": [
