@@ -105,7 +105,21 @@ async function buildFolder(path: string, filenames: vscode.Uri[]): Promise<AnyAr
   };
 }
 
-export async function findArtifacts(): Promise<AnyArtifact[]> {
+export async function findAllABAPFiles(): Promise<vscode.Uri[]> {
+// todo: handle multiple workspace folders
+  for (const folder of vscode.workspace.workspaceFolders || []) {
+     const startingPattern = await abapGit.findStartingFolderPattern(folder.uri);
+     const pattern = new vscode.RelativePattern(folder, startingPattern);
+
+     const filenames = await vscode.workspace.findFiles(pattern);
+     filenames.sort();
+     return filenames;
+   }
+
+   return [];
+}
+
+export async function findTopArtifact(): Promise<AnyArtifact[]> {
   const ret: AnyArtifact[] = [];
 
   for (const folder of vscode.workspace.workspaceFolders || []) {

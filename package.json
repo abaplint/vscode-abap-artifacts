@@ -71,7 +71,7 @@
     },
     "keybindings": [
       {
-        "command": "workbench.action.quickOpen",
+        "command": "workbench.action.showAllSymbols",
         "key": "ctrl+shift+a",
         "when": "true"
       }

@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { AnyArtifact, findArtifacts } from "./artifacts";
+import { AnyArtifact, findTopArtifact } from "./artifacts";
 
 export class ArtifactsTreeProvider implements vscode.TreeDataProvider<ArtifactTreeItem> {
 
@@ -21,7 +21,7 @@ export class ArtifactsTreeProvider implements vscode.TreeDataProvider<ArtifactTr
         treeItems.push(new ArtifactTreeItem(sub));
       }
     } else {
-      const items = await findArtifacts();
+      const items = await findTopArtifact();
       for (const i of items) {
         treeItems.push(new ArtifactTreeItem(i));
       }
