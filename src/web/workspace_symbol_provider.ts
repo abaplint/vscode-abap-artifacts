@@ -28,8 +28,9 @@ export class WorkspaceSymbolProvider implements vscode.WorkspaceSymbolProvider {
       }
 
       if (kind !== undefined) {
+        const name = basename.split(".")[0].replaceAll("#", "/");
         const symbol = new vscode.SymbolInformation(
-          basename.split(".")[0],
+          name,
           kind,
           "",
           new vscode.Location(
