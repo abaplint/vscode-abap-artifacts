@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { findAllABAPFiles } from "./artifacts";
+import { findAllFiles } from "./artifacts";
 import { Utils } from 'vscode-uri';
 
 export class WorkspaceSymbolProvider implements vscode.WorkspaceSymbolProvider {
@@ -10,7 +10,7 @@ export class WorkspaceSymbolProvider implements vscode.WorkspaceSymbolProvider {
     const allSymbols = [];
 
     // todo, this is slow, should be cached
-    const allFiles = await findAllABAPFiles();
+    const allFiles = await findAllFiles();
 
     for (const file of allFiles) {
       const basename = Utils.basename(file).toUpperCase();
@@ -25,6 +25,8 @@ export class WorkspaceSymbolProvider implements vscode.WorkspaceSymbolProvider {
         kind = vscode.SymbolKind.Interface;
       } else if (basename.endsWith(".PROG.ABAP")) {
         kind = vscode.SymbolKind.Field;
+      } else if (basename.endsWith(".DDLS.ASDDLS")) {
+        kind = vscode.SymbolKind.Module;
       }
 
       if (kind !== undefined) {
