@@ -12,7 +12,7 @@ async function createFile(path: string, filename: string, content: string) {
   }
   const uintarray = new TextEncoder().encode(content);
   await vscode.workspace.fs.writeFile(uri, uintarray);
-  await vscode.window.showTextDocument(uri, {preview: false});
+  await vscode.window.showTextDocument(uri, { preview: false });
 }
 
 async function findFolder(uri: vscode.Uri): Promise<string> {
@@ -39,11 +39,11 @@ async function fileExists(uri: vscode.Uri): Promise<boolean> {
 
 export async function createArtifact(uri: vscode.Uri) {
   if (uri === undefined) {
-    vscode.window.showErrorMessage('Right click folder in explorer view', {modal: true});
+    vscode.window.showErrorMessage('Right click folder in explorer view', { modal: true });
     return;
   }
 
-  const foo: {[name: string]: (uri: vscode.Uri) => Promise<void>} = {
+  const foo: { [name: string]: (uri: vscode.Uri) => Promise<void> } = {
     "CLAS - Class (abapGit)": createCLAS,
     "INTF - Interface (abapGit)": createINTF,
     "PROG - Program (abapGit)": createPROG,
@@ -70,7 +70,7 @@ export async function createArtifact(uri: vscode.Uri) {
 
 function createAff(key: string) {
   const ret = async (uri: vscode.Uri) => {
-    let name = await vscode.window.showInputBox({placeHolder: "name"});
+    let name = await vscode.window.showInputBox({ placeHolder: "name" });
     if (name === undefined || name === "") {
       return;
     }
@@ -106,10 +106,12 @@ function createAff(key: string) {
 }
 
 async function createCLAS(uri: vscode.Uri) {
-  const name = await vscode.window.showInputBox({placeHolder: "cl_name"});
+  const name = await vscode.window.showInputBox({ placeHolder: "cl_name" });
   if (name === undefined || name === "") {
     return;
   }
+
+  const createTestClass = await vscode.window.showInputBox({ placeHolder: "Add TestInclude - y/n?" });
 
   const dir = await findFolder(uri);
   const filename = name.replace(/\//g, "#").toLowerCase() + ".clas";
@@ -142,10 +144,18 @@ CLASS ${name.toLowerCase()} IMPLEMENTATION.
 
 ENDCLASS.`;
   await createFile(dir, uriABAP, dataABAP);
+
+  if (createTestClass === 'y') {
+    const uriTestIncl = filename + ".testclasses" + ".abap";
+    const dataTestIncl = `*"* use this source file for your ABAP unit test classes`;
+
+    await createFile(dir, uriTestIncl, dataTestIncl);
+  }
+
 }
 
 async function createINTF(uri: vscode.Uri) {
-  const name = await vscode.window.showInputBox({placeHolder: "if_name"});
+  const name = await vscode.window.showInputBox({ placeHolder: "if_name" });
   if (name === undefined || name === "") {
     return;
   }
@@ -179,7 +189,7 @@ ENDINTERFACE.`;
 }
 
 async function createPROG(uri: vscode.Uri) {
-  const name = await vscode.window.showInputBox({placeHolder: "zreport"});
+  const name = await vscode.window.showInputBox({ placeHolder: "zreport" });
   if (name === undefined || name === "") {
     return;
   }
@@ -210,11 +220,11 @@ async function createPROG(uri: vscode.Uri) {
 }
 
 async function createFUGR(uri: vscode.Uri) {
-  const groupName = await vscode.window.showInputBox({placeHolder: "z_fugr"});
+  const groupName = await vscode.window.showInputBox({ placeHolder: "z_fugr" });
   if (groupName === undefined || groupName === "") {
     return;
   }
-  const moduleName = await vscode.window.showInputBox({placeHolder: "zfunction_module"});
+  const moduleName = await vscode.window.showInputBox({ placeHolder: "zfunction_module" });
   if (moduleName === undefined || moduleName === "") {
     return;
   }
