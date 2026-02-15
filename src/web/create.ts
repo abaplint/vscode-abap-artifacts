@@ -148,10 +148,8 @@ ENDCLASS.`;
   if (createTestClass === 'y') {
     const uriTestIncl = filename + ".testclasses" + ".abap";
     const dataTestIncl = `*"* use this source file for your ABAP unit test classes`;
-
     await createFile(dir, uriTestIncl, dataTestIncl);
   }
-
 }
 
 async function createINTF(uri: vscode.Uri) {
