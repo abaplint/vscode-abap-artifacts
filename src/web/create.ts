@@ -111,8 +111,6 @@ async function createCLAS(uri: vscode.Uri) {
     return;
   }
 
-  const createTestClass = await vscode.window.showInputBox({ placeHolder: "Add TestInclude - y/n?" });
-
   const dir = await findFolder(uri);
   const filename = name.replace(/\//g, "#").toLowerCase() + ".clas";
 
@@ -145,7 +143,13 @@ CLASS ${name.toLowerCase()} IMPLEMENTATION.
 ENDCLASS.`;
   await createFile(dir, uriABAP, dataABAP);
 
-  if (createTestClass === 'y') {
+  const createTestClass = await vscode.window.showQuickPick(
+    [{ label: "yes" },
+    { label: "no" }],
+    { placeHolder: "Add test class include?" }
+  );
+
+  if (createTestClass?.label === "yes") {
     const uriTestIncl = filename + ".testclasses" + ".abap";
     const dataTestIncl = `*"* use this source file for your ABAP unit test classes`;
     await createFile(dir, uriTestIncl, dataTestIncl);
