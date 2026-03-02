@@ -44,6 +44,7 @@ export async function createArtifact(uri: vscode.Uri) {
   }
 
   const foo: { [name: string]: (uri: vscode.Uri) => Promise<void> } = {
+    "DEVC - Package (abapGit)": createDEVC,
     "CLAS - Class (abapGit)": createCLAS,
     "INTF - Interface (abapGit)": createINTF,
     "PROG - Program (abapGit)": createPROG,
@@ -103,6 +104,34 @@ function createAff(key: string) {
     }
   };
   return ret;
+}
+
+async function createDEVC(uri: vscode.Uri) {
+  const name = await vscode.window.showInputBox({ placeHolder: "package_name" });
+  if (name === undefined || name === "") {
+    return;
+  }
+
+  const description = await vscode.window.showInputBox({ placeHolder: "Description" });
+  if (description === undefined || description === "") {
+    return;
+  }
+
+  const dir = await findFolder(uri);
+  const folderUri = vscode.Uri.joinPath(vscode.Uri.parse(dir), name.toLowerCase());
+  await vscode.workspace.fs.createDirectory(folderUri);
+
+  const dataXML = `<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_DEVC" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <DEVC>
+    <CTEXT>${description}</CTEXT>
+   </DEVC>
+  </asx:values>
+ </asx:abap>
+</abapGit>`;
+  await createFile(folderUri.path, "package.devc.xml", dataXML);
 }
 
 async function createCLAS(uri: vscode.Uri) {
