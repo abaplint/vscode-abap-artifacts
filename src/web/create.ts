@@ -105,17 +105,10 @@ function createAff(key: string) {
   return ret;
 }
 
-async function createCLAS(uri: vscode.Uri) {
-  const name = await vscode.window.showInputBox({ placeHolder: "cl_name" });
-  if (name === undefined || name === "") {
-    return;
-  }
+export function buildClasXml(name: string, withUnitTests: boolean) {
+  const withUnitTestsXml = withUnitTests ? "\n    <WITH_UNIT_TESTS>X</WITH_UNIT_TESTS>" : "";
 
-  const dir = await findFolder(uri);
-  const filename = name.replace(/\//g, "#").toLowerCase() + ".clas";
-
-  const uriXML = filename + ".xml";
-  const dataXML = `<?xml version="1.0" encoding="utf-8"?>
+  return `<?xml version="1.0" encoding="utf-8"?>
 <abapGit version="v1.0.0" serializer="LCL_OBJECT_CLAS" serializer_version="v1.0.0">
  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
   <asx:values>
@@ -126,11 +119,31 @@ async function createCLAS(uri: vscode.Uri) {
     <STATE>1</STATE>
     <CLSCCINCL>X</CLSCCINCL>
     <FIXPT>X</FIXPT>
-    <UNICODE>X</UNICODE>
+    <UNICODE>X</UNICODE>${withUnitTestsXml}
    </VSEOCLASS>
   </asx:values>
  </asx:abap>
 </abapGit>`;
+}
+
+async function createCLAS(uri: vscode.Uri) {
+  const name = await vscode.window.showInputBox({ placeHolder: "cl_name" });
+  if (name === undefined || name === "") {
+    return;
+  }
+
+  const dir = await findFolder(uri);
+  const filename = name.replace(/\//g, "#").toLowerCase() + ".clas";
+
+  const createTestClass = await vscode.window.showQuickPick(
+    [{ label: "yes" },
+    { label: "no" }],
+    { placeHolder: "Add test class include?" }
+  );
+  const withUnitTests = createTestClass?.label === "yes";
+
+  const uriXML = filename + ".xml";
+  const dataXML = buildClasXml(name, withUnitTests);
   await createFile(dir, uriXML, dataXML);
 
   const uriABAP = filename + ".abap";
@@ -143,13 +156,7 @@ CLASS ${name.toLowerCase()} IMPLEMENTATION.
 ENDCLASS.`;
   await createFile(dir, uriABAP, dataABAP);
 
-  const createTestClass = await vscode.window.showQuickPick(
-    [{ label: "yes" },
-    { label: "no" }],
-    { placeHolder: "Add test class include?" }
-  );
-
-  if (createTestClass?.label === "yes") {
+  if (withUnitTests) {
     const uriTestIncl = filename + ".testclasses" + ".abap";
     const dataTestIncl = `*"* use this source file for your ABAP unit test classes`;
     await createFile(dir, uriTestIncl, dataTestIncl);
