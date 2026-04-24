@@ -96,7 +96,7 @@ function createAff(key: string) {
     }
 
     const json = JSON.stringify(sample, null, 2) + "\n";
-    await createFile(dir, `${name}.${key}.json`, json);
+    await createFile(dir, `${name}.${key.substring(0, 4)}.json`, json);
 
     for (const extra of affExtras[key] || []) {
       await createFile(dir, `${name}.${key}.${extra.extension}`, extra.contents(name));
